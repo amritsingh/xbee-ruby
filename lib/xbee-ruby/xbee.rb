@@ -22,16 +22,21 @@ module XBeeRuby
 		#
 		#   xbee = XBeeRuby::XBee.new serial: some_serial_mockup_for_testing
 		#
-		def initialize port: '/dev/ttyUSB0', rate: 9600, serial: nil
+		def initialize port: '/dev/ttyUSB0', rate: 9600, serial: nil, data_bits: 8, stop_bits: 1, parity: SerialPort::NONE, flow_control: SerialPort::NONE
 			@port = port
 			@rate = rate
+			@data_bits = data_bits
+			@stop_bits = stop_bits
+			@parity = parity
+			@flow_control = flow_control
 			@serial = serial
 			@connected = false
 			@logger = nil
 		end
 
 		def open
-			@serial ||= SerialPort.new @port, @rate
+			@serial ||= SerialPort.new @port, @rate, @data_bits, @stop_bits, @parity
+			@serial.flow_control = @flow_control
 			@serial_input = Enumerator.new { |y| loop do
 				y.yield @serial.readbyte
 			end }
