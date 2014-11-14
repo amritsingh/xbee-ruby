@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
 	spec.description = 'A Ruby API for Digi XBee RF Modules'
 	spec.summary = 'A Ruby API for Digi XBee RF Modules'
 	spec.authors = 'Dirk Grappendorf (http://www.grappendorf.net)'
-	spec.homepage = 'https://github.com/grappendorf/xbee-ruby'
+	spec.homepage = 'https://github.com/amritsingh/xbee-ruby'
 	spec.license = 'MIT'
 
 	spec.files = Dir.glob('lib/**/*.{rb,yml}') + Dir.glob('vendor/**/*.*')
