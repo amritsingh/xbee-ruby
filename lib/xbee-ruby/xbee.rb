@@ -22,7 +22,7 @@ module XBeeRuby
 		#
 		#   xbee = XBeeRuby::XBee.new serial: some_serial_mockup_for_testing
 		#
-		def initialize port: '/dev/ttyUSB0', rate: 9600, serial: nil, data_bits: 8, stop_bits: 1, parity: SerialPort::NONE, flow_control: SerialPort::NONE
+		def initialize port: '/dev/ttyUSB0', rate: 9600, serial: nil, data_bits: 8, stop_bits: 1, parity: SerialPort::NONE, flow_control: SerialPort::NONE, api_mode: Packet::API_MODE_2
 			@port = port
 			@rate = rate
 			@data_bits = data_bits
@@ -30,6 +30,7 @@ module XBeeRuby
 			@parity = parity
 			@flow_control = flow_control
 			@serial = serial
+			@api_mode = api_mode
 			@connected = false
 			@logger = nil
 		end
@@ -37,6 +38,7 @@ module XBeeRuby
 		def open
 			@serial ||= SerialPort.new @port, @rate, @data_bits, @stop_bits, @parity
 			@serial.flow_control = @flow_control
+			Packet.set_api_mode @api_mode
 			@serial_input = Enumerator.new { |y| loop do
 				y.yield @serial.readbyte
 			end }

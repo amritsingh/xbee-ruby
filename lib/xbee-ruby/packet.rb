@@ -16,6 +16,14 @@ module XBeeRuby
 		ESCAPE = 0x7d
 		XON = 0x11
 		XOFF = 0x13
+		API_MODE_1 = 0
+		API_MODE_2 = 1
+
+		@@api_mode = API_MODE_2
+
+		def self.set_api_mode mode
+			@@api_mode = mode if [API_MODE_1, API_MODE_2].include?(mode)
+		end
 
 		def self.special_byte? byte
 			[START_BYTE, ESCAPE, XON, XOFF].include? byte
@@ -27,7 +35,7 @@ module XBeeRuby
 
 		def self.unescape bytes
 			bytes.inject([]) do |unescaped, b|
-				if unescaped.last == ESCAPE
+				if (unescaped.last == ESCAPE) && (@@api_mode == API_MODE_2)
 					unescaped.pop
 					unescaped << (0x20 ^ b)
 				else
@@ -57,7 +65,7 @@ module XBeeRuby
 
 		def self.next_unescaped_byte bytes
 			byte = bytes.next
-			if byte == ESCAPE then
+			if (byte == ESCAPE) && (@@api_mode == API_MODE_2) then
 				0x20 ^ bytes.next
 			else
 				byte
@@ -109,7 +117,7 @@ module XBeeRuby
 
 		def bytes_escaped
 			[START_BYTE] + bytes[1..-1].flat_map { |b|
-				if Packet.special_byte?(b) then
+				if (Packet.special_byte?(b)) && (@@api_mode == API_MODE_2)
 					[ESCAPE, 0x20 ^ b]
 				else
 					b
