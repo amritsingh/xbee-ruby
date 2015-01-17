@@ -24,7 +24,7 @@ module XBeeRuby
 			super 0x10
 			@address64 = address64
 			@data = data
-			@frame_id = Request.next_frame_id
+			@frame_id = opt[:frame_id] || Request.next_frame_id
 			@address16 = opt[:address16] || Address16::BROADCAST
 			@options = opt[:options] || 0
 			@radius = opt[:radius] || 0
