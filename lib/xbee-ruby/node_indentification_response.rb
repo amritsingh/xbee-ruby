@@ -15,7 +15,7 @@ module XBeeRuby
 
 	class NodeIdentificationResponse < Response
 
-		frame_type 0x90
+		frame_type 0x95
 
 		attr_reader :address64
 		attr_reader :address16
