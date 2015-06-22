@@ -2,7 +2,7 @@
 
 This file is part of the xbee-ruby gem.
 
-Copyright 2013-2014 Dirk Grappendorf, www.grappendorf.net
+Copyright 2015-2016 Amrit Singh <amrit0403@gmail.com>
 
 Licensed under the The MIT License (MIT)
 
